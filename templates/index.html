@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>発車案内＋運行情報</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+</head>
+<body data-page="{{ page }}">
+  <!-- ヘッダー -->
+  <header id="header">
+    <div class="date-time-group">
+      <h1 id="current-time"></h1>
+      <span id="current-date"></span>
+    </div>
+    <div id="lang-display"></div>
+    <button id="settings-button" title="表示設定">⚙️</button>
+  </header>
+
+  <!-- 設定モーダル -->
+  <div id="settings-modal">
+    <div class="settings-content">
+      <h2>表示設定</h2>
+
+      <!-- ズーム・フォント倍率・リサイズ -->
+      <div class="setting-item">
+        <label for="zoom-slider">ズーム</label>
+        <input id="zoom-slider" type="range" min="70" max="140" value="100">
+        <span id="zoom-value">100%</span>
+      </div>
+      <div class="setting-item">
+        <label for="font-slider">フォント倍率</label>
+        <input id="font-slider" type="range" min="80" max="120" value="100">
+        <span id="font-value">100%</span>
+      </div>
+      <div class="setting-item">
+        <label><input id="resize-toggle" type="checkbox"> カードをリサイズ可能にする</label>
+      </div>
+
+      <!-- 表示 ON/OFF -->
+      <h3>表示項目</h3>
+      <div class="setting-item"><label><input type="checkbox" id="toggle-status"   checked> 🚉 運行情報</label></div>
+      <div class="setting-item"><label><input type="checkbox" id="toggle-weather"  checked> ☀️ 天気情報</label></div>
+      <div class="setting-item"><label><input type="checkbox" id="toggle-news"     checked> 📰 ニュース</label></div>
+      <div class="setting-item"><label><input type="checkbox" id="toggle-schedule" checked> 🚆 発車案内</label></div>
+      <div class="setting-item"><label><input type="checkbox" id="toggle-twitter"  checked> 🐦 Twitter</label></div>
+
+      <!-- 色・フォント -->
+      <h3>色・フォント設定</h3>
+      <div class="setting-item"><label>運行 BG <input type="color" id="color-status-bg" value="#ffffff"></label><label>文字 <input type="color" id="color-status-text" value="#000000"></label></div>
+      <div class="setting-item"><label>天気 BG <input type="color" id="color-weather-bg" value="#ffffff"></label><label>文字 <input type="color" id="color-weather-text" value="#000000"></label></div>
+      <div class="setting-item"><label>ニュース BG <input type="color" id="color-news-bg" value="#ffffff"></label><label>文字 <input type="color" id="color-news-text" value="#000000"></label></div>
+      <div class="setting-item"><label>発車 BG <input type="color" id="color-schedule-bg" value="#ffffff"></label><label>文字 <input type="color" id="color-schedule-text" value="#000000"></label></div>
+      <div class="setting-item">
+        <label for="font-family-select">フォント</label>
+        <select id="font-family-select">
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="'MS Gothic', sans-serif">ＭＳ ゴシック</option>
+          <option value="'Noto Sans JP', sans-serif">Noto Sans JP</option>
+          <option value="'Roboto', sans-serif">Roboto</option>
+        </select>
+      </div>
+
+      <!-- 発車案内設定 -->
+      <h3>発車案内設定</h3>
+      <div class="setting-item">
+        <p style="margin:0;">✔︎表示路線 ＋ 本数（何本先まで）</p>
+        <div id="route-selector-container" style="max-height:140px;overflow:auto;border:1px solid #ccc;padding:4px;"></div>
+      </div>
+
+      <p class="setting-note">※ 設定中はカードの自動更新が停止します。</p>
+      <button id="close-settings">閉じる</button>
+    </div>
+  </div>
+
+  <!-- 上段パネル -->
+  <div id="top-panels">
+    <section id="status-card"   class="panel resizable-off"><h2>🚉 運行情報</h2><ul id="status-list"></ul></section>
+    <section id="weather-card"  class="panel resizable-off"><h2>☀️ 天気情報</h2><div id="weather-info"></div></section>
+    <div     id="news-ticker"   class="panel resizable-off"><span id="news-headline"></span></div>
+  </div>
+
+  <!-- Twitter -->
+  <div id="twitter-container" class="twitter-embed panel resizable-off">
+    <a class="twitter-timeline" data-theme="light" data-tweet-limit="3" href="https://twitter.com/tokyu_official">Tweets by tokyu_official</a>
+    <script async src="https://platform.twitter.com/widgets.js"></script>
+  </div>
+
+  <!-- 発車案内 -->
+  <main id="routes-container"></main>
+
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>

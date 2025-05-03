@@ -1,0 +1,102 @@
+:root{
+  --fs-xxl:4.5vh; --fs-xl:2.4vh; --fs-lg:2vh;
+  --fs-md:2.4vh;  --fs-news:1.8vh; --fs-status:2vh;
+  --c-bg:#eef1f8; --tokyu-red:#df0024; --oimachi-orange:#ff6600;
+  --c-card:rgba(255,255,255,.65); --c-blur:15px; --c-shadow:rgba(0,0,0,.08);
+  --c-first:#ffe9bf; --c-second:#d8ecff;
+}
+
+html,body{height:100%;margin:0;padding:0;display:flex;flex-direction:column;
+  background:var(--c-bg);color:#222;line-height:1.45;font-size:100%}
+body{zoom:100%}
+
+/* ヘッダー */
+#header{flex:0 0 auto;padding:.6vh 0;text-align:center;background:var(--tokyu-red);
+  color:#fff;box-shadow:0 .3vh .6vh rgba(0,0,0,.08);position:relative}
+.date-time-group{display:flex;justify-content:center;align-items:flex-end;gap:.8vw}
+#current-time{font-size:var(--fs-xxl);font-weight:800}
+#current-date{font-size:var(--fs-status)}
+#lang-display{position:absolute;right:6vw;top:50%;transform:translateY(-50%);
+  font-size:var(--fs-lg);font-weight:600;opacity:.8}
+#settings-button{position:absolute;right:2vw;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:#fff;font-size:var(--fs-lg);cursor:pointer}
+
+/* 設定モーダル */
+#settings-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);
+  z-index:1000;align-items:center;justify-content:center}
+#settings-modal.active{display:flex}
+.settings-content{background:#fff;padding:2vh 3vw;border-radius:1vh;
+  max-width:90vw;box-shadow:0 .6vh 1.2vh rgba(0,0,0,.2)}
+.settings-content h2{margin:0 0 1vh;font-size:var(--fs-xl)}
+.setting-item{margin:1vh 0;font-size:var(--fs-md)}
+#zoom-slider,#font-slider{vertical-align:middle}
+#zoom-value,#font-value{margin-left:.5vw;font-weight:600}
+.setting-note{font-size:var(--fs-news);opacity:.7;margin:1vh 0 0}
+#close-settings{margin-top:1.5vh;padding:.6vh 1.2vw;font-size:var(--fs-md)}
+
+/* パネル共通 */
+.panel{background:rgba(255,255,255,.9);border-radius:.8vh;margin:.8vh 1.5vw;
+  padding:.8vh 1.5vw;box-shadow:0 .5vh 1vh rgba(0,0,0,.1);border:2px solid transparent}
+.resizable-on{resize:both;overflow:auto}
+.resizable-off{resize:none;}
+
+/* 各パネル個別 */
+#status-card{border-color:var(--tokyu-red)}
+#status-card.alert{background:#ffecec;border-color:#e60012}
+#status-card h2{font-size:var(--fs-lg);margin-bottom:.5vh}
+#status-list{list-style:none;max-height:8vh;overflow-y:auto;padding-left:0}
+#status-list li{display:flex;align-items:center;gap:.4em;font-size:var(--fs-status);margin:.3vh 0}
+.status-logo{height:1.6em;width:auto}
+
+#weather-card{border-color:#009bdc}
+#weather-card h2{font-size:var(--fs-lg);margin-bottom:.5vh}
+#weather-info{display:flex;flex-wrap:wrap;gap:.8vh .8vw;font-size:var(--fs-md)}
+.forecast-day{flex:1 1 30%;min-width:18%;background:rgba(255,255,255,.65);
+  backdrop-filter:blur(calc(var(--c-blur)/2));border-radius:.8vh;padding:.8vh .8vw;
+  box-shadow:0 .3vh .6vh rgba(0,0,0,.05)}
+.forecast-date{font-weight:700;font-size:var(--fs-lg);margin-bottom:.3vh}
+.forecast-main{font-size:var(--fs-md);margin-bottom:.2vh}
+.forecast-main .temp{font-weight:700}
+.forecast-icon{height:2vh;vertical-align:middle;margin-right:.3vw}
+.forecast-sub{font-size:var(--fs-news);color:#555}
+
+#news-ticker{display:flex;align-items:center;gap:.8vw;background:rgba(255,255,255,.75);
+  backdrop-filter:blur(calc(var(--c-blur)/1.5));border:2px solid var(--tokyu-red);
+  border-radius:.8vh;padding:.6vh 1.5vw;font-size:var(--fs-news);font-weight:600;
+  white-space:nowrap}
+#news-ticker::before{content:'📰';font-size:2.2vh;color:var(--tokyu-red);margin-right:.6vw}
+#news-headline{transition:opacity .3s}
+
+/* Twitter */
+.twitter-embed{margin:.5vh 1.5vw}
+
+/* 並べ替えコンテナ */
+#top-panels{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5vw 1.5vh}
+
+/* 発車案内コンテナ */
+main#routes-container{flex:1 1 auto;overflow-y:auto;padding:.8vh 1.5vw 1.5vh;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:1.5vw 1.5vh}
+
+/* Route Card */
+.route{position:relative;flex:1 1 45%;max-width:45%;padding:1.8vh 1.5vw;margin:1vh 0;
+  border-radius:1vh;background:var(--c-card);backdrop-filter:blur(var(--c-blur));
+  box-shadow:0 .6vh 1.2vh var(--c-shadow);overflow:hidden}
+.route::before{content:"";position:absolute;top:0;left:0;width:100%;height:.5vh;
+  background:linear-gradient(90deg,var(--tokyu-red),#f480ff 60%)}
+.tokyu-oimachi::before{background:var(--oimachi-orange)!important}
+
+/* Route Title & Directions */
+.route-title{font-size:var(--fs-xl);font-weight:700;margin-bottom:1.2vh;display:flex;
+  align-items:center;gap:.8vw}
+.route-title img{height:3.8vh;object-fit:contain}
+.directions{display:flex;flex-wrap:wrap;gap:1.5vw 1.5vh}
+.direction{flex:1 1 28%;min-width:18%;background:rgba(255,255,255,.65);
+  border-radius:.8vh;padding:1.2vh .8vw;backdrop-filter:blur(calc(var(--c-blur)/2));
+  box-shadow:0 .3vh .6vh rgba(0,0,0,.05);transition:transform .15s ease}
+.direction:hover{transform:translateY(-.3vh)}
+.direction-title{font-size:var(--fs-lg);font-weight:600;border-bottom:.3vh solid #d1d7e3;
+  margin-bottom:.8vh}
+.schedule-list p{font-size:var(--fs-md);margin:.5vh 0;transition:opacity .25s}
+.schedule-list p:hover{opacity:.7}
+.first-dep{background:var(--c-first);border-radius:.5vh;padding:.3vh .6vw}
+.second-dep{background:var(--c-second);border-radius:.5vh;padding:.3vh .6vw}
